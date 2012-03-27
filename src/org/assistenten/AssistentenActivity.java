@@ -15,7 +15,7 @@ public class AssistentenActivity extends Activity {
 	private final int SOLBERG = 2190311;
 	private final int OKSENOYVEIEN = 2190040;
 	private final int SANDVIKABUSS = 2190401;
-
+	/*derp inserted*/
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
