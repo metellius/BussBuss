@@ -63,9 +63,10 @@ public class RealTimeQuery extends AsyncTask<Integer, Integer, QueryResult> {
 			for (int i = 0; i < departures.length(); i++) {
 				JSONObject departure = departures.getJSONObject(i);
 				String line = departure.getString("PublishedLineName");
+				String directionRef = departure.getString("DirectionRef");
 				Long expectedDeparture = jsonToDate(departure.getString("ExpectedDepartureTime"));
 				int minutes = (int)((expectedDeparture) - System.currentTimeMillis()) / (1000 * 60);
-				result.addResult(Integer.parseInt(line), minutes);
+				result.addResult(Integer.parseInt(line), minutes, Integer.parseInt(directionRef));
 				Log.v(AssistentenActivity.DEBUG, stasjonId + ": Line " + line + ": in " + minutes + " min");
 			}
 

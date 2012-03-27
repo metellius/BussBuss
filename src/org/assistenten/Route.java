@@ -12,6 +12,8 @@ public class Route {
 		public int expectedTravelTime;
 		public int fromStation;
 		public int bussTogId;
+		public int directionRef;
+		public int predictedTravelTime = -1;
 		
 		@Override
 		public String toString() {
@@ -35,12 +37,13 @@ public class Route {
 		this.routeAlternatives = new ArrayList<Route.RouteAlternative>();
 	}
 	
-	public void addAlternative(int fromStation, int toStation, int bussTogId, int expectedTravelTime) {
+	public void addAlternative(int fromStation, int toStation, int bussTogId, int expectedTravelTime, int directionRef) {
 		RouteAlternative ra = new RouteAlternative();
 		ra.toStation = toStation;
 		ra.expectedTravelTime = expectedTravelTime;
 		ra.fromStation = fromStation;
 		ra.bussTogId = bussTogId;
+		ra.directionRef = directionRef;
 		routeAlternatives.add(ra);
 	}
 	
@@ -53,12 +56,21 @@ public class Route {
 		return ret;
 	}
 	
+	private void updateTravelTimePredictions() {
+		Log.v(AssistentenActivity.DEBUG, "updateTravelTimePredictions");
+		for (RouteAlternative alternative : routeAlternatives) {
+			QueryResult destinationRealtime = subscriptionHandler.getSubscription(alternative.toStation).getResult();
+			
+		}
+	}
+	
 	
 	public void calculateRoute() {
 		Log.v(AssistentenActivity.DEBUG, "calculateRoute");
-		for (RouteAlternative alternative : getAlternativesFrom(startStation)) {
-			traverseAlternatives(alternative, alternative.toString() + " --- ", alternative.expectedTravelTime);
-		}
+		updateTravelTimePredictions();
+//		for (RouteAlternative alternative : getAlternativesFrom(startStation)) {
+//			traverseAlternatives(alternative, alternative.toString() + " --- ", alternative.expectedTravelTime);
+//		}
 	}
 	
 	public void traverseAlternatives(RouteAlternative ra, String currentRoute, int totalTravelTime) {
@@ -69,11 +81,11 @@ public class Route {
 			for (RouteAlternative alternative : choices) {
 				Log.v(AssistentenActivity.DEBUG, "considering " + alternative);
 				int nextSuitableDeparture = -1;
-				try {
-					nextSuitableDeparture = subscriptionHandler.getSubscription(alternative.fromStation).getResult().getNext(alternative.bussTogId, totalTravelTime);
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					nextSuitableDeparture = subscriptionHandler.getSubscription(alternative.fromStation).getResult().getNext(alternative.bussTogId, totalTravelTime);
+//				} catch (InvalidKeyException e) {
+//					e.printStackTrace();
+//				}
 				String newRoute = new String(currentRoute);
 				newRoute += alternative.toString() + "nexsuit" + nextSuitableDeparture + " --- ";
 				traverseAlternatives(alternative, newRoute, totalTravelTime + alternative.expectedTravelTime);

@@ -34,9 +34,9 @@ public class AssistentenActivity extends Activity {
 				final TextView view = (TextView)findViewById(R.id.textView1);
 				Route sandvikaBuss = new Route(subscriptionHandler);
 				sandvikaBuss.setStartStation(SOLBERG);
-				sandvikaBuss.addAlternative(SOLBERG, SANDVIKABUSS, 121, 2);
-				sandvikaBuss.addAlternative(SANDVIKABUSS, OKSENOYVEIEN, 151, 3);
-				sandvikaBuss.addAlternative(SANDVIKABUSS, OKSENOYVEIEN, 262, 4);
+				sandvikaBuss.addAlternative(SOLBERG, SANDVIKABUSS, 121, 2, 2);
+				sandvikaBuss.addAlternative(SANDVIKABUSS, OKSENOYVEIEN, 151, 3, 1);
+				sandvikaBuss.addAlternative(SANDVIKABUSS, OKSENOYVEIEN, 262, 4, 1); //usikker på directionref
 				
 				sandvikaBuss.calculateRoute();
 			}
